@@ -31,7 +31,9 @@ describe("imported text", () => {
   test("processing pattern correctly", () => {
     const patt = new Conway(GOSPER, 0);
 
-    expect(patt.toString()).to.deep.equal(
+    const res = patt.toString();
+
+    expect(res).to.deep.equal(
       `························o···········
        ······················o·o···········
        ············oo······oo············oo
@@ -40,9 +42,7 @@ describe("imported text", () => {
        oo········o···o·oo····o·o···········
        ··········o·····o·······o···········
        ···········o···o····················
-       ············oo······················`
-        .split("\n")
-        .map((row) => row.trim())
+       ············oo······················`.replaceAll(" ", "")
     );
   });
 

@@ -1,4 +1,6 @@
-const ASCII_DOT = "·";
+const DEAD = "·";
+const LIVE = "o";
+
 const RE_NAME = /^\s*#N (.+)/m;
 const RE_XY_RULE =
   /^\s*x\s*=\s*(\d+)\s*,\s*y\s*=\s*(\d+)\s*(?:,\s*rule\s*=\s*(.+))?/m;
@@ -23,10 +25,10 @@ export class Conway {
     // const height = Number(xyrMatch[2]);
     let row: boolean[] = [];
 
-    function finishLine() {
+    const finishLine = (() => {
       while (row.length < width) row.push(false);
       this.#state.push([...row]);
-    }
+    }).bind(this);
 
     outer: for (const [, strQty, char] of str
       .slice(xyrMatch.index! + xyrMatch[0].length)
@@ -62,7 +64,11 @@ export class Conway {
     return this.#state.length;
   }
 
-  toString() {}
+  toString() {
+    return this.#state
+      .map((row) => row.map((cell) => (cell ? LIVE : DEAD)).join(""))
+      .join("\n");
+  }
 
   evolve() {
     while (this.gen-- > 0) this.__iter();
