@@ -19,4 +19,10 @@ export class Conway {
     this.gen = gen;
     this.rule = rule;
   }
+
+  evolve() {
+    while (this.gen-- > 0) this.__iter();
+  }
+
+  __iter() {}
 }
