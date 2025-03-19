@@ -20,6 +20,14 @@ describe("imported text", () => {
     expect(patt.name).to.equal("Gosper glider gun");
   });
 
+  test("comments are extracted", () => {
+    const patt = new Conway(GOSPER);
+    expect(patt.comments).to.deep.equal([
+      "This was the first gun discovered.",
+      "As its name suggests, it was discovered by Bill Gosper.",
+    ]);
+  });
+
   test("x,y,rule can be retrieved from input", () => {
     const patt = new Conway(GOSPER);
 
