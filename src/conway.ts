@@ -7,6 +7,7 @@ const RE_XY_RULE =
   /^\s*x\s*=\s*(\d+)\s*,\s*y\s*=\s*(\d+)\s*(?:,\s*rule\s*=\s*(.+))?/m;
 
 const RE_DATA = /(\d*)([bo$!])/g;
+const RE_70_LONG = /.{70}/g;
 
 export class Conway {
   name: string;
@@ -66,6 +67,40 @@ export class Conway {
 
   get y() {
     return this.#state.length;
+  }
+
+  get RLE() {
+    const res: string[] = [];
+    let count: number;
+    let prev: null | boolean = null;
+
+    const push = (cell: boolean) => {
+      res.push(`${count > 1 ? count : ""}${cell ? "o" : "b"}`);
+      count = 0;
+    };
+
+    this.#state.forEach((row, ri) =>
+      row.forEach((cell, ci) => {
+        if (prev === null) {
+          prev = cell;
+          count = 1;
+        } else if (prev !== cell) {
+          push(prev);
+          prev = cell;
+          count = 1;
+        } else if (prev === cell) {
+          count++;
+        }
+
+        if (ci === this.x - 1) {
+          if (prev) push(prev);
+          prev = null;
+          res.push(ri === this.y - 1 ? "!" : "$");
+        }
+      })
+    );
+
+    return res.join("").replaceAll(RE_70_LONG, (mm) => mm + "\n");
   }
 
   toString() {
