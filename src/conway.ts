@@ -103,6 +103,23 @@ export class Conway {
     return res.join("").replaceAll(RE_70_LONG, (mm) => mm + "\n");
   }
 
+  #aliveNs(y: number, x: number) {
+    let count = 0;
+
+    outer: for (let r = y - 1; r <= y + 1; r++) {
+      if (r < 0 || r >= this.y) break;
+
+      for (let c = x - 1; c <= x + 1; c++) {
+        if (c >= this.x) continue outer;
+        if (c == x) continue;
+
+        if (this.#state[r][c]) count++;
+      }
+    }
+
+    return count;
+  }
+
   toString() {
     return this.#state
       .map((row) => row.map((cell) => (cell ? LIVE : DEAD)).join(""))
@@ -113,5 +130,27 @@ export class Conway {
     while (this.gen-- > 0) this.__iter();
   }
 
-  __iter() {}
+  __iter() {
+    const toKill = [] as number[][];
+    for (let r = 0; r < this.y; r++) {
+      for (let c = 0; c < this.x; c++) {
+        if (this.#state[r][c]) {
+          const neighbors = this.#aliveNs(r, c);
+          if (neighbors < 2 || neighbors > 3) toKill.push([r, c]);
+        }
+      }
+    }
+    toKill.forEach(([r, c]) => (this.#state[r][c] = false));
+
+    const toPopulate = [] as number[][];
+    for (let r = 0; r < this.y; r++) {
+      for (let c = 0; c < this.x; c++) {
+        if (!this.#state[r][c]) {
+          const neighbors = this.#aliveNs(r, c);
+          if (neighbors === 3) toPopulate.push([r, c]);
+        }
+      }
+    }
+    toPopulate.forEach(([r, c]) => (this.#state[r][c] = true));
+  }
 }
