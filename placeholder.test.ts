@@ -1,6 +1,7 @@
-import { expect } from "chai";
-
 import { describe, test } from "vitest";
+import { expect } from "chai";
+import { spy } from "sinon";
+
 import { Conway } from "./src/conway";
 
 const GOSPER = `
@@ -34,5 +35,11 @@ describe("imported text", () => {
   test("number of generations can be passed to constructor and retrieved", () => {
     const patt = new Conway(GOSPER, 2);
     expect(patt.gen).to.equal(2);
+  });
+
+  test("Conway.__iter() gets called as many times as generation", () => {
+    const patt = new Conway(GOSPER, 5);
+    const iterMethod = spy(patt, "__iter");
+    expect(iterMethod.callCount).to.equal(5);
   });
 });
