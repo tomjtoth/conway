@@ -4,7 +4,7 @@ import { spy } from "sinon";
 
 import { Conway } from "./conway";
 
-const GOSPER = `
+export const GOSPER = `
   #N Gosper glider gun
   #C This was the first gun discovered.
   #C As its name suggests, it was discovered by Bill Gosper.
