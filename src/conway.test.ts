@@ -28,6 +28,24 @@ describe("imported text", () => {
     expect(patt.rule).to.equal("B3/S23");
   });
 
+  test("processing pattern correctly", () => {
+    const patt = new Conway(GOSPER, 0);
+
+    expect(patt.toString()).to.deep.equal(
+      `························o···········
+       ······················o·o···········
+       ············oo······oo············oo
+       ···········o···o····oo············oo
+       oo········o·····o···oo··············
+       oo········o···o·oo····o·o···········
+       ··········o·····o·······o···········
+       ···········o···o····················
+       ············oo······················`
+        .split("\n")
+        .map((row) => row.trim())
+    );
+  });
+
   test("number of generations can be passed to constructor and retrieved", () => {
     const patt = new Conway(GOSPER, 2);
     expect(patt.gen).to.equal(2);
