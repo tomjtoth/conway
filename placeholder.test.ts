@@ -30,4 +30,9 @@ describe("imported text", () => {
     expect(patt.y).to.equal(9);
     expect(patt.rule).to.equal("B3/S23");
   });
+
+  test("number of generations can be passed to constructor and retrieved", () => {
+    const patt = new Conway(GOSPER, 2);
+    expect(patt.gen).to.equal(2);
+  });
 });
