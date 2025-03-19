@@ -107,11 +107,11 @@ export class Conway {
     let count = 0;
 
     outer: for (let r = y - 1; r <= y + 1; r++) {
-      if (r < 0 || r >= this.y) break;
+      if (r < 0 || r >= this.y) continue;
 
       for (let c = x - 1; c <= x + 1; c++) {
         if (c >= this.x) continue outer;
-        if (c == x) continue;
+        if (r === y && c === x) continue;
 
         if (this.#state[r][c]) count++;
       }
@@ -132,25 +132,18 @@ export class Conway {
 
   __iter() {
     const toKill = [] as number[][];
-    for (let r = 0; r < this.y; r++) {
-      for (let c = 0; c < this.x; c++) {
-        if (this.#state[r][c]) {
-          const neighbors = this.#aliveNs(r, c);
-          if (neighbors < 2 || neighbors > 3) toKill.push([r, c]);
-        }
-      }
-    }
-    toKill.forEach(([r, c]) => (this.#state[r][c] = false));
-
     const toPopulate = [] as number[][];
+
     for (let r = 0; r < this.y; r++) {
       for (let c = 0; c < this.x; c++) {
-        if (!this.#state[r][c]) {
-          const neighbors = this.#aliveNs(r, c);
-          if (neighbors === 3) toPopulate.push([r, c]);
-        }
+        const alive = this.#state[r][c];
+        const neighbors = this.#aliveNs(r, c);
+        if (!alive && neighbors === 3) toPopulate.push([r, c]);
+        if (alive && (neighbors < 2 || neighbors > 3)) toKill.push([r, c]);
       }
     }
+
+    toKill.forEach(([r, c]) => (this.#state[r][c] = false));
     toPopulate.forEach(([r, c]) => (this.#state[r][c] = true));
   }
 }
