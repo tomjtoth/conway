@@ -65,4 +65,25 @@ describe("imported text", () => {
     patt.evolve();
     expect(iterMethod.callCount).to.equal(5);
   });
+
+  test("pattern can be converted back to RLE format", () => {
+    const patt = new Conway(GOSPER, 5);
+
+    expect(patt.RLE).to.equal(
+      `24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4b
+      obo$10bo5bo7bo$11bo3bo$12b2o!`.replaceAll(" ", "")
+    );
+  });
+
+  test.skip("after n iterations RLE is as expected", () => {
+    const patt = new Conway(GOSPER, 5);
+
+    patt.evolve();
+
+    // retrieved from: https://conwaylife.com/
+    expect(patt.RLE).to.equal(
+      `22b2o$24bo$11b2o12bo8b2o$11b2o4bo7bo8b2o$2o6b2o5b2o8bo$2o5b3o5bo2b2o4b
+      o$8b2o6b5ob2o$11b2o4bo$11b2o!`.replaceAll(" ", "")
+    );
+  });
 });
