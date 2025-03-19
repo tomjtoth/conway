@@ -2,6 +2,7 @@ const DEAD = "·";
 const LIVE = "o";
 
 const RE_NAME = /^\s*#N (.+)/m;
+const RE_COMMENT = /^\s*#[cC] (.+)/gm;
 const RE_XY_RULE =
   /^\s*x\s*=\s*(\d+)\s*,\s*y\s*=\s*(\d+)\s*(?:,\s*rule\s*=\s*(.+))?/m;
 
@@ -11,6 +12,7 @@ export class Conway {
   name: string;
   gen: number;
   rule: string;
+  comments: string[] = [];
   #state: boolean[][] = [];
 
   constructor(str: string, gen: number = 1) {
@@ -21,8 +23,10 @@ export class Conway {
     const xyrMatch = str.match(RE_XY_RULE)!;
     this.rule = xyrMatch[3];
 
+    for (const [, comment] of str.matchAll(RE_COMMENT))
+      this.comments.push(comment);
+
     const width = Number(xyrMatch[1]);
-    // const height = Number(xyrMatch[2]);
     let row: boolean[] = [];
 
     const finishLine = (() => {
