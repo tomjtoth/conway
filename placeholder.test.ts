@@ -40,6 +40,7 @@ describe("imported text", () => {
   test("Conway.__iter() gets called as many times as generation", () => {
     const patt = new Conway(GOSPER, 5);
     const iterMethod = spy(patt, "__iter");
+    patt.evolve();
     expect(iterMethod.callCount).to.equal(5);
   });
 });
