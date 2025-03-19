@@ -11,6 +11,7 @@
     "test": "vitest run"
   },
   "devDependencies": {
+    "@types/node": "^22.13.10",
     "@types/sinon": "^17.0.4",
     "chai": "^5.2.0",
     "sinon": "^19.0.2",
