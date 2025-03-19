@@ -75,7 +75,7 @@ describe("imported text", () => {
     );
   });
 
-  test.skip("after n iterations RLE is as expected", () => {
+  test("after n iterations RLE is as expected", () => {
     const patt = new Conway(GOSPER, 5);
 
     patt.evolve();
