@@ -94,17 +94,17 @@ describe("imported text", () => {
         $o5bo6bo12b4o$b5o7bo7bo5bo$9bo2bo9bo$9b2o9b3o!`,
         19,
       ],
+
+      // based on discussion on Discord, any pixel outside the original matrix is dead
       // [
       //   `26b2o$25bo3bo$9b2o13bo5bo3b2o$9b2o13bo3bob2o2b2o$2o3bo6b2o10bo5bo$obo
       // 3bo5b3o10bo3bo$b5o6b2o12b2o$2b3o4b2o9bobo$9b2o10b2o$21bo!`,
       //   20,
-      //   // this is 1 row more than the original
       // ],
       // [
       //   `26b2o$25bo3bo$9b2o13bo5bo3b2o$9b2o13bo3bob2o2b2o$2o3bo6b2o10bo5bo$obo
       // 3bo5b3o10bo3bo$b5o6b2o12b2o$2b3o4b2o9bobo$9b2o10b2o$21bo!`,
       //   50,
-      //   // this is n rows more than the original
       // ],
     ]) {
       const patt = new Conway(GOSPER, gen as number);
